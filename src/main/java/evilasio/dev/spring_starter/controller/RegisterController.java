@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import evilasio.dev.spring_starter.domain.form.ClientRegistrationForm;
 import evilasio.dev.spring_starter.service.register.RegisterService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 @RestController()
 @RequestMapping(path = "/register")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerToken")
 public class RegisterController {
 
     private final RegisterService registerService;

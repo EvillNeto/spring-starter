@@ -45,6 +45,7 @@ public class ConfigProperties {
     @Setter
     public static class Request {
         private boolean enableSwagger = false;
+        private boolean enableH2 = false;
         private String[] allowedAll = {};
         private String[] allowedGet = {};
         private String[] allowedPost = {};

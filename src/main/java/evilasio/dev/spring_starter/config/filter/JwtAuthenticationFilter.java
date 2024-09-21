@@ -65,8 +65,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             List<String> permissions = decodedJWT.getClaim("permissions").asList(String.class);
 
-            String type = decodedJWT.getClaim("type").asString();
-
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
             List<SimpleGrantedAuthority> roleAuthorities = (roles != null) ? roles.stream()
@@ -80,7 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             authorities.addAll(roleAuthorities);
             authorities.addAll(permissionsAuthorities);
 
-            Principal principal = new Principal(subject, type, roles, permissions, token);
+            Principal principal = new Principal(subject, roles, permissions, token);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal,
                     null, authorities);

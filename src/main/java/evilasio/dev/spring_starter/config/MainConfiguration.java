@@ -51,13 +51,6 @@ public class MainConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        SecurityConfiguration securityConfig = new SecurityConfiguration(jwtAuthenticationFilter(), configProperties(),
-                http);
-        return securityConfig.filterChain();
-    }
-
-    @Bean
     public OpenAPI openApi() {
         return new OpenAPI()
                 .info(new Info()

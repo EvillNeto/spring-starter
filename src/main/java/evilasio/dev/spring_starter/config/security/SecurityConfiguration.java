@@ -1,6 +1,7 @@
 package evilasio.dev.spring_starter.config.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,7 @@ import evilasio.dev.spring_starter.config.filter.JwtAuthenticationFilter;
 import evilasio.dev.spring_starter.config.properties.ConfigProperties;
 import lombok.RequiredArgsConstructor;
 
+@Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     
@@ -28,10 +30,18 @@ public class SecurityConfiguration {
             "/configuration/ui",
             "/configuration/security",
             "/v3/api-docs",
-            "/v3/api-docs/swagger-config",
+            "/v3/api-docs/swagger-config"
     };
 
     private String[] swaggerPath(){
+        if(configProperties.getRequest().isEnableSwagger()){
+            return SWAGGER_PATHS;
+        }else {
+            return new String[]{};
+        }
+    }
+
+    private String[] h2Path(){
         if(configProperties.getRequest().isEnableSwagger()){
             return SWAGGER_PATHS;
         }else {
@@ -69,7 +79,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, swaggerPath())
+                        .requestMatchers(swaggerPath())
+                        .permitAll()
+                        .requestMatchers(h2Path())
                         .permitAll()
                         .requestMatchers(allowedAll())
                         .permitAll()
