@@ -26,18 +26,18 @@ import lombok.Setter;
 public class User extends BaseEntity {
 
     @Column(nullable = false)
-    String login;
+    private String login;
 
     @Column(nullable = false)
-    String password;
+    private String password;
 
     @ElementCollection(targetClass = RoleEnum.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "user_roles")
 	@Enumerated(EnumType.STRING)
-    Set<RoleEnum> roles;
+    private Set<RoleEnum> roles;
 
     @ElementCollection(targetClass = PermissionEnum.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "user_permissions")
 	@Enumerated(EnumType.STRING)
-    Set<PermissionEnum> permissions;
+    private Set<PermissionEnum> permissions;
 }

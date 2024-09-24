@@ -20,13 +20,13 @@ import lombok.Setter;
 public class Client extends BaseEntity {
 
     @Column(nullable = false)
-    String name;
+    private String name;
 
     @Email
 	@Column(nullable = false)
-    String email;
+    private String email;
     
     @CPF
 	@Column(nullable = false)
-    String cpf;
+    private String cpf;
 }

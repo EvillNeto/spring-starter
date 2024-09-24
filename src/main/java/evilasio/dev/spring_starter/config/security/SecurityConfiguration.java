@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    
+
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final ConfigProperties configProperties;
@@ -33,19 +34,24 @@ public class SecurityConfiguration {
             "/v3/api-docs/swagger-config"
     };
 
-    private String[] swaggerPath(){
-        if(configProperties.getRequest().isEnableSwagger()){
+    private static final String[] H2_PATHS = {
+            "/h2-console",
+            "/h2-console/**"
+    };
+
+    private String[] swaggerPath() {
+        if (configProperties.getRequest().isEnableSwagger()) {
             return SWAGGER_PATHS;
-        }else {
-            return new String[]{};
+        } else {
+            return new String[] {};
         }
     }
 
-    private String[] h2Path(){
-        if(configProperties.getRequest().isEnableSwagger()){
-            return SWAGGER_PATHS;
-        }else {
-            return new String[]{};
+    private String[] h2Path() {
+        if (configProperties.getRequest().isEnableH2()) {
+            return H2_PATHS;
+        } else {
+            return new String[] {};
         }
     }
 
@@ -59,7 +65,7 @@ public class SecurityConfiguration {
 
     private String[] allowedPost() {
         return configProperties.getRequest().getAllowedPost();
-    };
+    }
 
     private String[] allowedPut() {
         return configProperties.getRequest().getAllowedPut();
@@ -81,8 +87,6 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers(swaggerPath())
                         .permitAll()
-                        .requestMatchers(h2Path())
-                        .permitAll()
                         .requestMatchers(allowedAll())
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, allowedGet())
@@ -96,10 +100,16 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, allowedDelete())
                         .permitAll()
                         .anyRequest().authenticated())
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable());
 
         return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(h2Path());
     }
 
 }

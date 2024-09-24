@@ -5,15 +5,12 @@ import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import evilasio.dev.spring_starter.config.filter.JwtAuthenticationFilter;
 import evilasio.dev.spring_starter.config.properties.ConfigProperties;
-import evilasio.dev.spring_starter.config.security.SecurityConfiguration;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -68,5 +65,4 @@ public class MainConfiguration {
                                 .name("Authorization")))
                 .security(Arrays.asList(new SecurityRequirement().addList("bearerToken")));
     }
-
 }
