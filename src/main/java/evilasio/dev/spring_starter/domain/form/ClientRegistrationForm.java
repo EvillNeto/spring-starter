@@ -2,6 +2,8 @@ package evilasio.dev.spring_starter.domain.form;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import evilasio.dev.spring_starter.domain.entity.Client;
+import evilasio.dev.spring_starter.domain.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -16,17 +18,25 @@ import lombok.Setter;
 public class ClientRegistrationForm {
     
     @NotBlank
-    String login;
+    private String login;
 
     @NotBlank
-    String password;
+    private String password;
 
     @NotBlank
-    String name;
+    private String name;
 
     @Email
-    String email;
+    private String email;
 
     @CPF
-    String cpf;
+    private String cpf;
+
+    public Client generateClient(){
+        return Client.builder()
+        .name(this.name)
+        .email(this.email)
+        .cpf(this.cpf)
+        .build();
+    }
 }

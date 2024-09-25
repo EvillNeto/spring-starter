@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +25,14 @@ public class Client extends BaseEntity {
     private String name;
 
     @Email
-	@Column(nullable = false)
+    @Column(nullable = false)
     private String email;
-    
+
     @CPF
-	@Column(nullable = false)
+    @Column(nullable = false)
     private String cpf;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    private User user;
 }
