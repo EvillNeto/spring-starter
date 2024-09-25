@@ -24,6 +24,8 @@ public class ConfigProperties {
 
     private @Valid Request request = new Request();
 
+    private @Valid Admin admin = new Admin();
+
     @Getter
     @Setter
     public static class Token {
@@ -54,4 +56,13 @@ public class ConfigProperties {
         private String[] allowedDelete = {};
     }
 
+    @Getter
+    @Setter
+    public static class Admin {
+        @NotBlank(message = "Admin login is not configured")
+        private String login;
+        
+        @NotBlank(message = "Admin password is not configured")
+        private String password;
+    }
 }
