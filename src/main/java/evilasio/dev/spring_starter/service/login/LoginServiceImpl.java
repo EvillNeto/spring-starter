@@ -1,11 +1,13 @@
 package evilasio.dev.spring_starter.service.login;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import evilasio.dev.spring_starter.domain.dto.TokenDto;
 import evilasio.dev.spring_starter.domain.entity.User;
 import evilasio.dev.spring_starter.domain.form.LoginForm;
+import evilasio.dev.spring_starter.exception.StandardException;
 import evilasio.dev.spring_starter.repository.UserRepository;
 import evilasio.dev.spring_starter.service.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
 
     private void checkPassword(User user, String password) {
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("senha incorreta");
+            throw new StandardException("USUARIO_SENHA_INCORRETA","usuario ou senha incorreta",HttpStatus.BAD_REQUEST);
         }
     }
 }
