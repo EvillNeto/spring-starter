@@ -22,7 +22,7 @@ public class RegisterController {
 
     private final RegisterService registerService;
 
-    @PostMapping()
+    @PostMapping("/client")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ClientDto> registerClient(@RequestBody ClientRegistrationForm form) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ClientDto.toDto(registerService.registerClient(form)));
