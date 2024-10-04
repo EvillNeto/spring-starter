@@ -24,17 +24,20 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public TokenDto login(LoginForm form) {
-        User user = userRepository.findByLogin(form.getLogin()).orElseThrow();
+        User user = userRepository.findByLogin(form.getLogin())
+                .orElseThrow(() -> new StandardException("USUARIO_SENHA_INCORRETA", "usuario ou senha incorreta",
+                        HttpStatus.BAD_REQUEST));
 
         checkPassword(user, form.getPassword());
 
-        return new TokenDto(user, jwtService.buildToken(user.getId().toString(), user.getRoles(), user.getPermissions()));
+        return new TokenDto(user,
+                jwtService.buildToken(user.getId().toString(), user.getRoles(), user.getPermissions()));
     }
-
 
     private void checkPassword(User user, String password) {
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new StandardException("USUARIO_SENHA_INCORRETA","usuario ou senha incorreta",HttpStatus.BAD_REQUEST);
+            throw new StandardException("USUARIO_SENHA_INCORRETA", "usuario ou senha incorreta",
+                    HttpStatus.BAD_REQUEST);
         }
     }
 }

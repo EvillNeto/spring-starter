@@ -1,6 +1,6 @@
 <h1 align="center">Spring Starter</h1>
 
-Projeto feito como ponto de partida para outros projetos mais complexos que precisam de security e documentação
+Projeto tem a gestão de permissões dos usuarios em mente, tendo varios metodos de controle e acesso nos endpoints
 
 ### :zap: Atalhos de uso:
 

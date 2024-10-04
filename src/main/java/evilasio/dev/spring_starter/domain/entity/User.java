@@ -11,7 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,22 +27,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User extends BaseEntity {
 
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false, unique = true)
     private String login;
 
     @Column(nullable = false)
     private String password;
 
     @ElementCollection(targetClass = RoleEnum.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "user_roles")
-	@Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles")
+    @Enumerated(EnumType.STRING)
     private Set<RoleEnum> roles;
 
     @ElementCollection(targetClass = PermissionEnum.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "user_permissions")
-	@Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_permissions")
+    @Enumerated(EnumType.STRING)
     private Set<PermissionEnum> permissions;
-
-    @OneToOne(mappedBy = "user")
-    private Client client;
 }
