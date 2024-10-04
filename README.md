@@ -114,6 +114,7 @@ O token gera uma autenticação com authorities que pode ser usada para filtar a
 ~~~java
 @RestController
 @RequestMapping("/test")
+@SecurityRequirement(name = "bearerToken")
 public class TestController {
 
     @GetMapping("/open")
