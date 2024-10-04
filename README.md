@@ -130,25 +130,25 @@ public class TestController {
 
     @GetMapping("/filtered-by-multiple-roles")
     @PreAuthorize("hasAnyRole({'CLIENT','ADMIN'})")
-    public ResponseEntity<String> hiAdminAndManager() {
+    public ResponseEntity<String> hiRoles() {
         return ResponseEntity.ok("Hi, Admin and Client");
     }
 
     @GetMapping("/filtered-by-syngle-authority")
     @PreAuthorize("hasAuthority('EXAMPLE_1')")
-    public ResponseEntity<String> hiRead() {
+    public ResponseEntity<String> hiPermission() {
         return ResponseEntity.ok("filtered by authority 'EXAMPLE_1'");
     }
 
     @GetMapping("/filtered-by-multiple-authorities")
     @PreAuthorize("hasAnyAuthority({'EXAMPLE_1','EXAMPLE_2'})")
-    public ResponseEntity<String> hiReadAndCreate() {
+    public ResponseEntity<String> hiPermissions() {
         return ResponseEntity.ok("filtered by authorities 'EXAMPLE_1','EXAMPLE_2'");
     }
 
     @GetMapping("/filtered-by-roles-and-authorities")
     @PreAuthorize("hasAnyRole({'CLIENT','ADMIN'}) or hasAnyAuthority({'EXAMPLE_1','EXAMPLE_2'})")
-    public ResponseEntity<String> filteredByRolesAndAuthorities() {
+    public ResponseEntity<String> filteredByRolesAndPermission() {
         return ResponseEntity.ok("filtered by roles 'CLIENT','ADMIN' and authorities 'EXAMPLE_1','EXAMPLE_2'");
     }
 }
